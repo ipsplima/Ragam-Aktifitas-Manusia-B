@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FINANCIAL EXPLORER — BAB 2 BAGIAN B</title>
+<style>
+:root{
+ --primary:#176b87;--secondary:#39a96b;--accent:#f4b942;--light:#f4faf9;
+ --dark:#17324d;--muted:#64748b;--border:#dbe7e5;--danger:#b45309
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:
+ radial-gradient(circle at 8% 8%,rgba(28,181,166,.18),transparent 26%),
+ radial-gradient(circle at 92% 12%,rgba(41,98,255,.13),transparent 25%),
+ linear-gradient(135deg,#e8f7f4 0%,#f7fbff 48%,#edf2ff 100%);
+ color:#182b3a;line-height:1.6}
+.container{max-width:1050px;margin:auto;padding:24px}
+.hero{background:linear-gradient(135deg,#176b87,#39a96b);color:white;border-radius:24px;padding:34px;
+ box-shadow:0 14px 35px rgba(23,107,135,.20);position:relative;overflow:hidden}
+.hero:after{content:"🏦";position:absolute;right:35px;bottom:-20px;font-size:120px;opacity:.16}
+.badge{display:inline-block;background:rgba(255,255,255,.18);padding:6px 12px;border-radius:30px;font-size:13px;margin-bottom:12px}
+h1{margin:0 0 8px;font-size:32px}.subtitle{margin:0;opacity:.94}
+.card{background:white;border:1px solid var(--border);border-radius:18px;padding:24px;margin-top:20px;box-shadow:0 8px 24px rgba(30,70,90,.07)}
+.section-title{display:flex;align-items:center;gap:10px;color:var(--dark);font-size:21px;font-weight:700;margin:0 0 16px}
+.section-title span{width:36px;height:36px;border-radius:10px;background:#e6f5f1;display:grid;place-items:center}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{font-weight:700;font-size:14px;color:var(--dark)}
+input,textarea,select{width:100%;margin-top:6px;padding:11px 13px;border:1px solid #cddbd9;border-radius:10px;font:inherit;background:#fbfefd}
+textarea{min-height:95px;resize:vertical}
+.callout{background:#f1f8f6;border-left:5px solid var(--secondary);padding:15px 18px;border-radius:10px;margin:12px 0}
+.quote{background:#fff8e8;border-left:5px solid var(--accent);padding:15px 18px;border-radius:10px}
+.activity{border:2px solid #e4efed;border-radius:16px;padding:18px;margin-top:15px}
+.activity h3{margin-top:0;color:var(--primary)}
+.small{font-size:13px;color:var(--muted)}
+.choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.choice{border:1px solid var(--border);padding:14px;border-radius:12px;background:#fcfefe}
+.choice input{width:auto;margin-right:8px}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{border:1px solid var(--border);padding:11px;vertical-align:top}
+th{background:#edf7f5;color:var(--dark);text-align:left}
+.term-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.term{background:#f8fbfc;border:1px solid var(--border);border-radius:14px;padding:15px}
+.term b{color:var(--primary)}
+.quiz-wrap{background:linear-gradient(135deg,#f4fbff,#eefcf7);border:1px solid #cfe6e3;border-radius:20px;padding:20px}
+.level-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:15px 0}
+.level-tab{border:1px solid #c9dbdf;border-radius:13px;padding:12px;text-align:center;background:#fff;font-weight:700;color:#607384;cursor:pointer}
+.level-tab.active{background:linear-gradient(135deg,#075985,#0f766e);color:#fff;border-color:transparent}
+.level-tab.done{background:#e7f8ee;color:#137333;border-color:#b8e2c5}
+.level-tab.locked{opacity:.55;cursor:not-allowed}
+.level-panel{display:none}.level-panel.active{display:block}
+.quiz-question{background:#fff;border:1px solid #dce9e8;border-radius:16px;padding:18px;margin:12px 0}
+.quiz-option{display:block;border:1px solid #d9e4e7;border-radius:11px;padding:11px 13px;margin:8px 0;cursor:pointer;background:#fbfefe}
+.quiz-option:hover{border-color:#0f766e;background:#f0fbf8}
+.quiz-option input{width:auto;margin-right:8px}
+.level-score{display:inline-block;background:#e9f7f2;border-radius:30px;padding:6px 12px;font-weight:700;color:#08735e}
+.final-score{background:linear-gradient(135deg,#073b4c,#0f766e);color:white;border-radius:20px;padding:25px;text-align:center;margin-top:18px}
+.final-score .big{font-size:52px;font-weight:800;line-height:1}
+.score-box{text-align:center;background:#f7fbfc;border:1px solid var(--border);border-radius:18px;padding:20px;margin-top:15px}
+.score-number{font-size:48px;font-weight:800;color:var(--primary)}
+.btnbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+button{border:0;border-radius:12px;padding:12px 18px;font-weight:700;cursor:pointer;font-size:14px}
+.primary{background:var(--primary);color:white}.green{background:var(--secondary);color:white}.gray{background:#e8eef2;color:#334155}
+@media(max-width:700px){.container{padding:12px}.hero{padding:25px}h1{font-size:25px}.grid,.choice-grid,.term-grid{grid-template-columns:1fr}.card{padding:17px}.level-tabs{grid-template-columns:repeat(2,1fr)}}
+@media print{body{background:white}.container{max-width:none;padding:0}.btnbar{display:none}.card{box-shadow:none;break-inside:avoid}.quiz-wrap{background:white!important}.final-score{background:white!important;color:#111!important;border:1px solid #999}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header class="hero">
+ <div class="badge">FINANCIAL EXPLORER • IPS KELAS VIII • BAB 2 • BAGIAN B</div>
+ <h1>FINANCIAL EXPLORER</h1>
+ <p class="subtitle"><b>Bab 2 — Bagian B: Aktivitas Manusia pada Lembaga Keuangan</b></p>
+ <p class="subtitle">Kenali lembaga keuangan • Jelajahi aktivitas perbankan • Analisis kredit • Ambil keputusan bijak</p>
+</header>
+<section class="card" id="rumahPembelajaran">
+<h2 class="section-title"><span>🏠</span>Rumah Pembelajaran — Bagian B</h2>
+<p>Semua pembelajaran Bagian B berada dalam satu rumah. Kerjakan ruang secara bertahap sesuai pertemuan.</p>
+<div class="level-tabs" style="grid-template-columns:repeat(4,1fr)">
+  <div class="level-tab active" id="room1" onclick="openRoom(1)">🏦<br><b>B1</b><br><small>MENGENAL</small></div>
+  <div class="level-tab" id="room2" onclick="openRoom(2)">🏦<br><b>B2</b><br><small>PERBANKAN</small></div>
+  <div class="level-tab" id="room3" onclick="openRoom(3)">💳<br><b>B3</b><br><small>KREDIT & RISIKO</small></div>
+  <div class="level-tab" id="room4" onclick="openRoom(4)">🚀<br><b>B4</b><br><small>DECISION CHALLENGE</small></div>
+</div>
+<div class="callout">
+<b>Aturan pengerjaan:</b> Setiap ruang adalah satu LKPD lengkap. Nilai B1, B2, B3, dan B4 dihitung terpisah.
+Setelah sebuah ruang selesai, hasilnya dapat dicetak/disimpan sebagai PDF. Ruang berikutnya dibuka sesuai progres.
+</div>
+</section>
+
+<section class="card" id="rekapBagianB">
+<h2 class="section-title"><span>🏆</span>Rekap Perjalanan Bagian B</h2>
+<table>
+<tr><th>Pertemuan</th><th>Fokus</th><th>Nilai LKPD</th><th>Nilai Kuis</th><th>Status</th></tr>
+<tr><td><b>B1</b></td><td>Mengenal Lembaga Keuangan</td><td id="sumB1">0 / 100</td><td id="sumQ1">0 / 100</td><td id="stB1">Sedang dikerjakan</td></tr>
+<tr><td><b>B2</b></td><td>Menjelajahi Dunia Perbankan</td><td id="sumB2">—</td><td id="sumQ2">—</td><td id="stB2">Belum dibuka</td></tr>
+<tr><td><b>B3</b></td><td>Kredit, Risiko, dan Tanggung Jawab</td><td id="sumB3">—</td><td id="sumQ3">—</td><td id="stB3">Belum dibuka</td></tr>
+<tr><td><b>B4</b></td><td>Financial Decision Challenge</td><td id="sumB4">—</td><td id="sumQ4">—</td><td id="stB4">Belum dibuka</td></tr>
+</table>
+<div class="score-box">
+<div class="small">REKAP AKHIR BAGIAN B</div>
+<div class="score-number" id="grandB">0</div>
+<div>/ 100</div>
+<div id="grandStatus">B1 sedang dikerjakan</div>
+</div>
+<p class="small">Rekap akhir dihitung setelah ruang yang tersedia selesai. Nilai masing-masing pertemuan tetap tersimpan secara terpisah.</p>
+</section>
+
+<div id="roomNotice" class="callout">
+<b>Ruang aktif: B1 — Mengenal Lembaga Keuangan.</b> B2–B4 akan menjadi ruang berikutnya dalam rumah yang sama.
+</div>
+
+
+<section class="card">
+<h2 class="section-title"><span>👤</span>Identitas Peserta Didik</h2>
+<div class="grid">
+<div><label>Nama Lengkap<input id="nama" placeholder="Contoh: Saepul Fadilah" onblur="rapikanNama(this)"></label></div>
+<div><label>Kelas / Rombel<input id="kelas" placeholder="Contoh: VIII-A"></label></div>
+<div><label>Kelompok<input id="kelompok" placeholder="Jika bekerja berkelompok"></label></div>
+<div><label>Tanggal<input id="tanggal" type="date"></label></div>
+</div>
+</section>
+
+<section class="card">
+<h2 class="section-title"><span>🎯</span>Tujuan Pembelajaran</h2>
+<p>Setelah mengerjakan LKPD ini, peserta didik diharapkan mampu:</p>
+<ol>
+<li>Menjelaskan pengertian dan peran lembaga keuangan dalam kehidupan masyarakat.</li>
+<li>Mengidentifikasi aktivitas manusia yang berkaitan dengan lembaga keuangan, khususnya perbankan.</li>
+<li>Membedakan fungsi Bank Indonesia, bank umum, dan BPR secara sederhana.</li>
+<li>Menganalisis penggunaan kredit secara bertanggung jawab serta risiko kredit macet.</li>
+<li>Menentukan pilihan aktivitas keuangan yang sesuai dengan kebutuhan dan kemampuan.</li>
+</ol>
+<div class="callout"><b>⏱️ Alokasi:</b> 1 kali pertemuan (2 JP). Kerjakan aktivitas secara berurutan dan gunakan contoh yang dekat dengan kehidupan sehari-hari.</div>
+</section>
+
+<section class="card">
+<h2 class="section-title"><span>📖</span>Materi Inti — Jelajah Singkat</h2>
+<p><b>Lembaga keuangan</b> merupakan bagian dari kehidupan ekonomi masyarakat. Lembaga ini berkaitan dengan kegiatan menghimpun, menyalurkan, atau menyediakan layanan keuangan.</p>
+<div class="term-grid">
+<div class="term"><b>🏦 Bank</b><br>Tempat masyarakat dapat melakukan berbagai aktivitas keuangan seperti menabung, melakukan pembayaran, transfer, dan memperoleh kredit sesuai ketentuan.</div>
+<div class="term"><b>🏛️ Bank Indonesia</b><br>Bank sentral Indonesia yang memiliki peran dalam menjaga kestabilan nilai rupiah dan menjalankan tugas di bidang moneter, sistem pembayaran, serta stabilitas sistem keuangan sesuai kewenangannya.</div>
+<div class="term"><b>🏪 BPR</b><br>Bank yang menjalankan kegiatan usaha secara konvensional atau berdasarkan prinsip syariah sesuai ketentuan, dengan ruang lingkup kegiatan yang berbeda dari bank umum.</div>
+</div>
+<div class="callout"><b>Aktivitas perbankan yang dekat dengan kehidupan kita:</b> menabung, menarik uang, transfer, membayar kebutuhan, melakukan transaksi, serta mengajukan kredit untuk kebutuhan tertentu.</div>
+</section>
+
+<section class="card">
+<h2 class="section-title"><span>🔎</span>Aktivitas 1 — Detektif Lembaga Keuangan</h2>
+<div class="activity">
+<h3>Kenali aktivitasnya</h3>
+<p>Hubungkan kebutuhan berikut dengan lembaga/aktivitas keuangan yang paling sesuai. Pilih jawabanmu.</p>
+<div class="grid">
+<div><label>1. Menyimpan uang agar lebih teratur dan dapat digunakan kembali.
+<select id="a1"><option value="">Pilih...</option><option>Menabung di bank</option><option>Mengajukan kredit</option><option>Membayar pajak</option></select></label></div>
+<div><label>2. Mengirim uang kepada anggota keluarga melalui layanan perbankan.
+<select id="a2"><option value="">Pilih...</option><option>Transfer</option><option>Kredit macet</option><option>Menabung</option></select></label></div>
+<div><label>3. Membutuhkan dana untuk keperluan tertentu dan mempertimbangkan kemampuan membayar kembali.
+<select id="a3"><option value="">Pilih...</option><option>Mengajukan kredit</option><option>Menutup rekening</option><option>Mengabaikan tagihan</option></select></label></div>
+<div><label>4. Lembaga yang berperan sebagai bank sentral Indonesia.
+<select id="a4"><option value="">Pilih...</option><option>Bank Indonesia</option><option>BPR</option><option>Bank umum</option></select></label></div>
+</div>
+</div>
+<div class="activity">
+<h3>Analisis singkat</h3>
+<label>Mengapa masyarakat membutuhkan lembaga keuangan dalam kehidupan sehari-hari?
+<textarea id="analisis1" placeholder="Jelaskan dengan contoh yang dekat dengan kehidupanmu..."></textarea></label>
+</div>
+</section>
+
+<section class="card">
+<h2 class="section-title"><span>💳</span>Aktivitas 2 — Banking Terms Lab</h2>
+<p>Lengkapi pemahamanmu tentang istilah yang sering dijumpai dalam aktivitas perbankan.</p>
+<table>
+<tr><th>Istilah</th><th>Makna menurut pemahamanmu</th><th>Contoh penggunaan</th></tr>
+<tr><td><b>Tabungan</b></td><td><textarea id="t1"></textarea></td><td><textarea id="c1"></textarea></td></tr>
+<tr><td><b>Transfer</b></td><td><textarea id="t2"></textarea></td><td><textarea id="c2"></textarea></td></tr>
+<tr><td><b>Kredit</b></td><td><textarea id="t3"></textarea></td><td><textarea id="c3"></textarea></td></tr>
+<tr><td><b>Kredit macet</b></td><td><textarea id="t4"></textarea></td><td><textarea id="c4"></textarea></td></tr>
+</table>
+</section>
+
+<section class="card">
+<h2 class="section-title"><span>🏛️</span>Aktivitas 3 — Bedakan Perannya</h2>
+<p>Gunakan materi inti untuk membedakan peran tiga jenis lembaga berikut.</p>
+<table>
+<tr><th>Lembaga</th><th>Peran utama</th><th>Contoh aktivitas/kaitan dengan masyarakat</th></tr>
+<tr><td><b>Bank Indonesia</b></td><td><textarea id="bi_peran" placeholder="Apa peran utamanya?"></textarea></td><td><textarea id="bi_contoh"></textarea></td></tr>
+<tr><td><b>Bank Umum</b></td><td><textarea id="bu_peran" placeholder="Apa peran/layanan yang kamu ketahui?"></textarea></td><td><textarea id="bu_contoh"></textarea></td></tr>
+<tr><td><b>BPR</b></td><td><textarea id="bpr_peran" placeholder="Apa yang membedakannya secara sederhana?"></textarea></td><td><textarea id="bpr_contoh"></textarea></td></tr>
+</table>
+<div class="quote"><b>Pertanyaan kunci:</b> Mengapa kita tidak boleh menyamakan semua lembaga keuangan? Jelaskan berdasarkan peran dan ruang lingkup kegiatannya.</div>
+<textarea id="analisis3" placeholder="Jawabanmu..."></textarea>
+</section>
+
+<section class="card">
+<h2 class="section-title"><span>🧠</span>Aktivitas 4 — Financial Detective: Kasus Rita</h2>
+<div class="quote">
+<b>Kasus:</b> Rita ingin membeli barang yang dibutuhkan untuk kegiatan usahanya. Ia mempertimbangkan mengajukan kredit. Namun, ia belum menghitung secara cermat pendapatan, pengeluaran, jumlah cicilan, dan kemampuan membayar setiap periode.
+</div>
+<div class="activity">
+<h3>Jangan terburu-buru mengambil keputusan.</h3>
+<div class="grid">
+<div><label>Apa yang harus Rita periksa sebelum mengambil kredit?
+<textarea id="rita1"></textarea></label></div>
+<div><label>Apa risiko jika Rita mengambil kredit tanpa mempertimbangkan kemampuan membayar?
+<textarea id="rita2"></textarea></label></div>
+</div>
+<label>Menurutmu, kapan kredit dapat menjadi pilihan yang perlu dipertimbangkan secara bijak?
+<textarea id="rita3"></textarea></label>
+<label>Jika kemampuan membayar Rita ternyata tidak cukup, apa keputusan yang lebih bertanggung jawab?
+<textarea id="rita4"></textarea></label>
+</div>
+</section>
+
+<section class="card">
+<h2 class="section-title"><span>🚀</span>Aktivitas 5 — Bank Challenge</h2>
+<p>Pilih respons yang menurutmu paling tepat pada setiap situasi.</p>
+<div class="activity">
+<p><b>Situasi 1:</b> Kamu menerima uang saku dan ingin mengelolanya agar tidak habis sekaligus.</p>
+<div class="choice-grid">
+<label class="choice"><input type="radio" name="s1" value="a">Menghabiskan seluruhnya</label>
+<label class="choice"><input type="radio" name="s1" value="b">Menyusun kebutuhan dan menyisihkan sebagian untuk ditabung</label>
+<label class="choice"><input type="radio" name="s1" value="c">Meminjam uang lagi</label>
+<label class="choice"><input type="radio" name="s1" value="d">Mengabaikan kebutuhan</label>
+</div>
+<p><b>Situasi 2:</b> Teman mengajak mengambil kredit untuk membeli sesuatu yang belum menjadi kebutuhan.</p>
+<div class="choice-grid">
+<label class="choice"><input type="radio" name="s2" value="a">Langsung ikut</label>
+<label class="choice"><input type="radio" name="s2" value="b">Mempertimbangkan kebutuhan, kemampuan membayar, dan risiko</label>
+<label class="choice"><input type="radio" name="s2" value="c">Meminjam dari banyak tempat</label>
+<label class="choice"><input type="radio" name="s2" value="d">Tidak perlu mencari informasi</label>
+</div>
+<p><b>Situasi 3:</b> Kamu melihat informasi layanan keuangan yang belum jelas sumbernya.</p>
+<div class="choice-grid">
+<label class="choice"><input type="radio" name="s3" value="a">Langsung memberikan data pribadi</label>
+<label class="choice"><input type="radio" name="s3" value="b">Memeriksa informasi dan sumbernya terlebih dahulu</label>
+<label class="choice"><input type="radio" name="s3" value="c">Menyebarkan ke semua teman</label>
+<label class="choice"><input type="radio" name="s3" value="d">Mengikuti karena sedang populer</label>
+</div>
+</div>
+</section>
+
+<section class="card" id="kuis">
+<h2 class="section-title"><span>🎮</span>Kuis Berlevel — Financial Explorer</h2>
+<div class="quiz-wrap">
+<p><b>Petunjuk:</b> Selesaikan Level 1 sebelum membuka Level 2, dan seterusnya. Setiap level bernilai maksimum <b>100</b>. Nilai kuis berdiri sendiri dan tidak dijumlahkan dengan nilai LKPD.</p>
+<div class="level-tabs">
+<div class="level-tab active" id="tab1">LEVEL 1<br><small>KENALI</small></div>
+<div class="level-tab locked" id="tab2">🔒 LEVEL 2<br><small>PAHAMI</small></div>
+<div class="level-tab locked" id="tab3">🔒 LEVEL 3<br><small>ANALISIS</small></div>
+<div class="level-tab locked" id="tab4">🔒 LEVEL 4<br><small>KEPUTUSAN</small></div>
+</div>
+<div class="level-panel active" id="level1"><h3>🌱 Level 1 — Kenali</h3><div id="q1"></div><button class="primary" onclick="finishLevel(1)">Selesai Level 1 →</button> <span class="level-score" id="score1">Belum dikerjakan</span></div>
+<div class="level-panel" id="level2"><h3>🔎 Level 2 — Pahami</h3><div id="q2"></div><button class="primary" onclick="finishLevel(2)">Selesai Level 2 →</button> <span class="level-score" id="score2">Belum dikerjakan</span></div>
+<div class="level-panel" id="level3"><h3>🧠 Level 3 — Analisis</h3><div id="q3"></div><button class="primary" onclick="finishLevel(3)">Selesai Level 3 →</button> <span class="level-score" id="score3">Belum dikerjakan</span></div>
+<div class="level-panel" id="level4"><h3>🚀 Level 4 — Keputusan</h3><div id="q4"></div><button class="primary" onclick="finishLevel(4)">Selesai Level 4</button> <span class="level-score" id="score4">Belum dikerjakan</span></div>
+<div class="final-score">
+<div>🏆 REKAP NILAI KUIS</div>
+<div style="margin-top:12px;text-align:left;background:rgba(255,255,255,.10);border-radius:14px;padding:14px">
+<div>Level 1 — Kenali: <b><span id="quizLevel1">0</span>/100</b></div>
+<div>Level 2 — Pahami: <b><span id="quizLevel2">0</span>/100</b></div>
+<div>Level 3 — Analisis: <b><span id="quizLevel3">0</span>/100</b></div>
+<div>Level 4 — Keputusan: <b><span id="quizLevel4">0</span>/100</b></div>
+</div>
+<div style="margin-top:15px">AKUMULASI NILAI KUIS</div><div class="big" id="quizFinal">0</div><div>/ 100</div>
+<div id="quizPredicate" style="margin-top:8px">Belum menyelesaikan semua level</div>
+</div>
+</div>
+</section>
+
+<section class="card">
+<h2 class="section-title"><span>💭</span>Refleksi</h2>
+<div class="quote"><b>Setelah mempelajari aktivitas manusia pada lembaga keuangan, apa satu pemahaman yang menurutmu paling penting untuk diterapkan dalam kehidupan sehari-hari?</b></div>
+<textarea id="refleksi" placeholder="Tuliskan refleksimu..."></textarea>
+<div class="grid">
+<div><label>Hal yang akan saya biasakan dalam mengelola uang:<textarea id="kebiasaan"></textarea></label></div>
+<div><label>Hal yang akan saya perhatikan sebelum menggunakan kredit/layanan keuangan:<textarea id="perhatian"></textarea></label></div>
+</div>
+</section>
+
+<section class="card">
+<h2 class="section-title"><span>📊</span>Nilai Otomatis LKPD</h2>
+<p>Nilai dihitung dari kelengkapan respons utama. Skor maksimum <b>100</b>.</p>
+<table>
+<tr><th>Komponen</th><th>Bobot</th><th>Dasar penilaian</th></tr>
+<tr><td>Aktivitas 1 — Detektif Lembaga Keuangan</td><td>20</td><td>Pilihan tepat dan analisis terisi.</td></tr>
+<tr><td>Aktivitas 2 — Banking Terms Lab</td><td>20</td><td>Istilah dan contoh terisi.</td></tr>
+<tr><td>Aktivitas 3 — Bedakan Perannya</td><td>20</td><td>Peran tiga lembaga dan analisis terisi.</td></tr>
+<tr><td>Aktivitas 4 — Kasus Rita</td><td>25</td><td>Analisis risiko dan keputusan bertanggung jawab.</td></tr>
+<tr><td>Aktivitas 5 + Refleksi</td><td>15</td><td>Respons situasi dan refleksi terisi.</td></tr>
+</table>
+<div class="score-box"><div class="small">NILAI AKHIR LKPD</div><div class="score-number" id="score">0</div><div>/ 100</div><div id="predicate">Belum dinilai</div></div>
+<div class="score-box"><div class="small">NILAI KUIS BERLEVEL — TERPISAH</div>
+<table><tr><th>Level</th><th>Nilai</th></tr>
+<tr><td>Level 1 — Kenali</td><td><b id="printQuiz1">0 / 100</b></td></tr>
+<tr><td>Level 2 — Pahami</td><td><b id="printQuiz2">0 / 100</b></td></tr>
+<tr><td>Level 3 — Analisis</td><td><b id="printQuiz3">0 / 100</b></td></tr>
+<tr><td>Level 4 — Keputusan</td><td><b id="printQuiz4">0 / 100</b></td></tr>
+<tr><th>Akumulasi Nilai Kuis</th><th><b id="printQuizFinal">0 / 100</b></th></tr></table>
+</div>
+<div class="btnbar" style="justify-content:center"><button class="green" onclick="completeB1()">📊 Selesaikan & Hitung Nilai B1</button></div>
+</section>
+
+
+<section class="card" id="hasilB1">
+<h2 class="section-title"><span>📥</span>Hasil Pembelajaran LKPD B1</h2>
+<div class="callout">
+<b>LKPD B1 selesai?</b> Setelah nilai dihitung, hasil pembelajaran B1 dapat disimpan sebagai dokumen PDF. 
+Nilai B1 ini berdiri sendiri dan tidak menunggu penyelesaian B2, B3, atau B4.
+</div>
+<div class="grid">
+<div class="score-box">
+<div class="small">NILAI LKPD B1</div>
+<div class="score-number" id="resultB1">0</div>
+<div>/ 100</div>
+<div id="resultPredB1">Belum dinilai</div>
+</div>
+<div class="score-box">
+<div class="small">NILAI KUIS B1</div>
+<div class="score-number" id="resultQuizB1">0</div>
+<div>/ 100</div>
+<div>Terpisah dari nilai LKPD</div>
+</div>
+</div>
+<div class="btnbar" style="justify-content:center">
+<button class="green" onclick="prepareResultAndPrint()">📥 Download Hasil B1 (PDF)</button>
+</div>
+<p class="small" style="text-align:center">
+Gunakan dialog cetak browser dan pilih <b>Save as PDF / Simpan sebagai PDF</b>.
+</p>
+</section>
+
+<section class="card room-content" id="contentB2" style="display:none">
+<h2 class="section-title"><span>🏦</span>B2 — Menjelajahi Dunia Perbankan</h2>
+<div class="callout"><b>Ruang B2 terbuka.</b> Peserta didik dapat melanjutkan pembelajaran setelah B1.</div>
+<h3>Fokus Pembelajaran</h3><p>Mengenali aktivitas perbankan yang dekat dengan kehidupan sehari-hari, seperti menabung, transfer, pembayaran, dan layanan rekening.</p>
+<div class="activity"><h3>Aktivitas B2 — Peta Aktivitas Perbankan</h3><p>Tuliskan tiga aktivitas perbankan yang pernah kamu lihat atau gunakan, lalu jelaskan manfaatnya.</p><textarea id="b2_jawaban1" placeholder="Aktivitas 1 dan manfaatnya..."></textarea><textarea id="b2_jawaban2" placeholder="Aktivitas 2 dan manfaatnya..."></textarea><textarea id="b2_jawaban3" placeholder="Aktivitas 3 dan manfaatnya..."></textarea></div>
+<div class="activity"><h3>Analisis</h3><textarea id="b2_analisis" placeholder="Mengapa layanan perbankan membantu aktivitas ekonomi masyarakat?"></textarea></div>
+<div class="btnbar"><button class="primary" onclick="openRoom(3)">Lanjut ke B3 →</button></div>
+</section>
+
+<section class="card room-content" id="contentB3" style="display:none">
+<h2 class="section-title"><span>💳</span>B3 — Kredit, Risiko, dan Tanggung Jawab</h2>
+<div class="callout"><b>Ruang B3 terbuka.</b> Peserta didik dapat melanjutkan analisis tentang penggunaan kredit secara bertanggung jawab.</div>
+<h3>Fokus Pembelajaran</h3><p>Menganalisis kebutuhan, kemampuan membayar, kewajiban cicilan, serta risiko ketika menggunakan kredit.</p>
+<div class="activity"><h3>Aktivitas B3 — Analisis Keputusan</h3><p>Seseorang ingin mengambil kredit untuk membeli barang. Sebelum memutuskan, hal apa saja yang harus diperiksa?</p><textarea id="b3_jawaban1" placeholder="Tuliskan pertimbangan yang harus diperiksa..."></textarea></div>
+<div class="activity"><h3>Risiko</h3><textarea id="b3_analisis" placeholder="Apa risiko jika kredit diambil tanpa mempertimbangkan kemampuan membayar?"></textarea></div>
+<div class="btnbar"><button class="primary" onclick="openRoom(4)">Lanjut ke B4 →</button></div>
+</section>
+
+<section class="card room-content" id="contentB4" style="display:none">
+<h2 class="section-title"><span>🚀</span>B4 — Financial Decision Challenge</h2>
+<div class="callout"><b>Ruang B4 terbuka.</b> Ini adalah ruang tantangan pengambilan keputusan keuangan.</div>
+<h3>Decision Challenge</h3><p>Kamu menerima uang lebih dari biasanya. Pilih keputusan yang paling bertanggung jawab dan jelaskan alasannya.</p>
+<div class="choice-grid"><label class="choice"><input type="radio" name="b4_choice" value="a"> Menghabiskan seluruh uang</label><label class="choice"><input type="radio" name="b4_choice" value="b"> Menyusun kebutuhan dan menyisihkan sebagian untuk ditabung</label><label class="choice"><input type="radio" name="b4_choice" value="c"> Meminjam lagi untuk membeli barang yang belum dibutuhkan</label><label class="choice"><input type="radio" name="b4_choice" value="d"> Mengikuti semua tawaran yang sedang populer</label></div>
+<div class="activity"><h3>Alasan Keputusan</h3><textarea id="b4_analisis" placeholder="Jelaskan mengapa pilihanmu paling bertanggung jawab."></textarea></div>
+<div class="activity"><h3>Refleksi Akhir Bagian B</h3><textarea id="b4_refleksi" placeholder="Apa prinsip penting yang kamu pelajari dari B1 sampai B4?"></textarea></div>
+</section>
+
+<section class="card">
+<h2 class="section-title"><span>🧑‍🏫</span>Catatan Guru</h2>
+<textarea id="catatanGuru" placeholder="Catatan, umpan balik, atau tindak lanjut guru..."></textarea>
+</section>
+
+<div class="btnbar">
+<button class="primary" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+<button class="green" onclick="saveData()">💾 Simpan Jawaban</button>
+<button class="gray" onclick="resetForm()">↺ Reset</button>
+</div>
+<p class="small" style="text-align:center;margin:25px 0">FINANCIAL EXPLORER • IPS Kelas VIII • Bab 2 • Bagian B • Rumah Pembelajaran B1–B4</p>
+</div>
+
+<script>
+const fields=document.querySelectorAll('input,textarea,select');
+function rapikanNama(el){let v=el.value.trim().replace(/\s+/g,' ');v=v.toLowerCase().replace(/\b[a-zÀ-ÿ]/g,c=>c.toUpperCase());el.value=v}
+function wordCount(v){return v.trim().split(/\s+/).filter(Boolean).length}
+function filled(id){return document.getElementById(id)?.value.trim()}
+
+function calculateScore(){
+ let s=0;
+ const act1=['a1','a2','a3','a4'].filter(id=>filled(id)).length;
+ const correct1=[['a1','Menabung di bank'],['a2','Transfer'],['a3','Mengajukan kredit'],['a4','Bank Indonesia']]
+ .filter(x=>document.getElementById(x[0]).value===x[1]).length;
+ s+=Math.round((correct1/4)*12);
+ if(wordCount(filled('analisis1')||'')>=12)s+=8;else if(filled('analisis1'))s+=4;
+
+ const terms=['t1','c1','t2','c2','t3','c3','t4','c4'].filter(id=>wordCount(filled(id)||'')>=3).length;
+ s+=Math.min(20,terms*2.5);
+
+ const role=['bi_peran','bi_contoh','bu_peran','bu_contoh','bpr_peran','bpr_contoh','analisis3'].filter(id=>wordCount(filled(id)||'')>=5).length;
+ s+=Math.min(20,Math.round(role/7*20));
+
+ const rita=['rita1','rita2','rita3','rita4'].filter(id=>wordCount(filled(id)||'')>=8).length;
+ s+=Math.min(25,Math.round(rita/4*25));
+
+ const ch=['s1','s2','s3'].filter(n=>document.querySelector('input[name="'+n+'"]:checked')).length;
+ const refl=['refleksi','kebiasaan','perhatian'].filter(id=>wordCount(filled(id)||'')>=6).length;
+ s+=Math.min(15,Math.round((ch/3)*6+(refl/3)*9));
+ s=Math.min(100,Math.round(s));
+ document.getElementById('score').textContent=s;
+ let p=s>=90?'Sangat Baik':s>=80?'Baik':s>=70?'Cukup':s>=60?'Perlu Bimbingan':'Perlu melengkapi LKPD';
+ document.getElementById('predicate').textContent=p;
+ syncB1Result();
+ localStorage.setItem('b_score',JSON.stringify({s,p}));
+ return s;
+}
+
+const quizData={
+1:[
+{q:'Apa fungsi utama lembaga keuangan dalam kehidupan masyarakat?',a:['Membantu menyediakan layanan/kegiatan keuangan','Menghapus semua kebutuhan manusia','Menggantikan seluruh aktivitas ekonomi','Menentukan semua pilihan masyarakat'],c:0},
+{q:'Aktivitas menyimpan uang di bank disebut...',a:['Menabung','Kredit macet','Debitur','Konsumen'],c:0},
+{q:'Lembaga yang berperan sebagai bank sentral Indonesia adalah...',a:['Bank Indonesia','BPR','Bank umum','Koperasi sekolah'],c:0},
+{q:'Transfer merupakan aktivitas...',a:['Memindahkan dana dari satu rekening ke rekening lain','Membeli barang tanpa pembayaran','Menghapus tabungan','Menutup semua rekening'],c:0},
+{q:'Kredit secara sederhana berkaitan dengan...',a:['Penyediaan dana yang harus dikembalikan sesuai ketentuan','Uang yang tidak perlu dikembalikan','Hadiah dari bank','Tabungan tanpa tujuan'],c:0}],
+2:[
+{q:'Mengapa masyarakat menabung?',a:['Untuk menyimpan dan mengelola uang sesuai kebutuhan','Agar uang tidak dapat digunakan','Untuk menghindari semua transaksi','Agar tidak perlu mengatur keuangan'],c:0},
+{q:'Salah satu perbedaan Bank Indonesia dengan bank umum adalah...',a:['Bank Indonesia adalah bank sentral, sedangkan bank umum memberikan berbagai layanan perbankan kepada masyarakat sesuai ketentuan','Keduanya memiliki fungsi yang persis sama','Bank umum adalah bank sentral','Bank Indonesia hanya menerima tabungan masyarakat'],c:0},
+{q:'BPR memiliki ruang lingkup kegiatan yang berbeda dari...',a:['Bank umum','Semua masyarakat','Sekolah','Rumah tangga'],c:0},
+{q:'Sebelum mengambil kredit, seseorang sebaiknya...',a:['Menghitung kebutuhan dan kemampuan membayar','Langsung menerima tawaran','Mengabaikan cicilan','Meminjam sebanyak mungkin'],c:0},
+{q:'Kredit macet dapat terjadi ketika...',a:['Kewajiban pembayaran tidak dapat dipenuhi sesuai ketentuan','Tabungan bertambah','Transfer berhasil','Uang disimpan'],c:0}],
+3:[
+{q:'Rita memiliki pendapatan terbatas tetapi ingin mengambil cicilan yang cukup besar. Apa yang perlu dianalisis?',a:['Pendapatan, pengeluaran, cicilan, kebutuhan, dan kemampuan membayar','Hanya keinginan membeli','Hanya iklan kredit','Pendapat teman saja'],c:0},
+{q:'Mengapa kredit harus digunakan secara bertanggung jawab?',a:['Karena kredit menimbulkan kewajiban yang perlu dipenuhi','Karena kredit selalu gratis','Karena semua kredit pasti menguntungkan','Karena kredit tidak memiliki risiko'],c:0},
+{q:'Jika seseorang tidak mampu membayar kewajibannya, tindakan yang lebih tepat adalah...',a:['Mengevaluasi kondisi dan mencari penyelesaian sesuai ketentuan','Mengabaikan semua tagihan','Meminjam tanpa menghitung kemampuan','Menyalahkan orang lain'],c:0},
+{q:'Jika ingin mengetahui peran bank sentral, lembaga yang relevan dipelajari adalah...',a:['Bank Indonesia','BPR','Bank umum','Toko'],c:0},
+{q:'Mengapa pemahaman tentang lembaga keuangan penting bagi pelajar?',a:['Agar dapat mengambil keputusan keuangan secara lebih sadar dan bertanggung jawab','Agar semua siswa harus mengambil kredit','Agar siswa tidak perlu menabung','Agar siswa mengikuti semua promosi'],c:0}],
+4:[
+{q:'Kamu mendapat uang saku lebih. Pilihan paling bertanggung jawab adalah...',a:['Menyusun kebutuhan dan menyisihkan sebagian untuk ditabung','Menghabiskan semuanya','Meminjam lagi','Membeli karena tren'],c:0},
+{q:'Teman mengajak mengambil kredit untuk barang yang belum dibutuhkan. Apa yang sebaiknya dilakukan?',a:['Menilai kebutuhan, kemampuan membayar, dan risiko sebelum memutuskan','Langsung ikut','Meminjam dari banyak tempat','Tidak perlu membaca ketentuan'],c:0},
+{q:'Kamu menerima tawaran layanan keuangan dari sumber yang belum jelas. Langkah awal yang tepat adalah...',a:['Memeriksa informasi dan sumbernya sebelum memberikan data','Langsung memberikan data pribadi','Menyebarkan informasi','Mengikuti karena murah'],c:0},
+{q:'Apa prinsip yang paling tepat dalam menggunakan layanan keuangan?',a:['Memahami kebutuhan, ketentuan, kemampuan, dan risiko','Mengikuti semua tawaran','Mengutamakan keinginan','Tidak perlu mencatat pengeluaran'],c:0},
+{q:'Kesimpulan terbaik dari pembelajaran ini adalah...',a:['Aktivitas keuangan perlu dilakukan dengan pengetahuan, pertimbangan, dan tanggung jawab','Semua orang harus mengambil kredit','Bank hanya digunakan untuk meminjam','Menabung tidak penting'],c:0}]
+};
+
+const quizState={scores:{1:null,2:null,3:null,4:null},unlocked:1};
+function renderQuiz(){
+ [1,2,3,4].forEach(l=>{
+  document.getElementById('q'+l).innerHTML=quizData[l].map((it,i)=>`
+  <div class="quiz-question"><b>${i+1}. ${it.q}</b>
+  ${it.a.map((o,j)=>`<label class="quiz-option"><input type="radio" name="lv${l}q${i}" value="${j}">${String.fromCharCode(65+j)}. ${o}</label>`).join('')}</div>`).join('');
+ });
+}
+function syncQuiz(){
+ [1,2,3,4].forEach(l=>{
+  const v=quizState.scores[l]===null?0:quizState.scores[l];
+  document.getElementById('quizLevel'+l).textContent=v;
+  document.getElementById('printQuiz'+l).textContent=v+' / 100';
+ });
+ const vals=Object.values(quizState.scores),done=vals.every(v=>v!==null);
+ const final=done?Math.round(vals.reduce((a,b)=>a+b,0)/4):0;
+ document.getElementById('quizFinal').textContent=final;
+ document.getElementById('printQuizFinal').textContent=final+' / 100';
+ if(done)document.getElementById('quizPredicate').textContent=final>=90?'Sangat Baik':final>=80?'Baik':final>=70?'Cukup':'Perlu Bimbingan';
+ if(document.getElementById('resultQuizB1')) document.getElementById('resultQuizB1').textContent=final;
+ return final;
+}
+function finishLevel(l){
+ if(l>quizState.unlocked){alert('Selesaikan level sebelumnya terlebih dahulu.');return}
+ let answered=0,correct=0;
+ quizData[l].forEach((it,i)=>{
+  const p=document.querySelector(`input[name="lv${l}q${i}"]:checked`);
+  if(p){answered++;if(Number(p.value)===it.c)correct++}
+ });
+ if(answered<quizData[l].length){alert('Lengkapi semua soal pada level ini terlebih dahulu.');return}
+ quizState.scores[l]=correct*20;
+ document.getElementById('score'+l).textContent='Nilai: '+quizState.scores[l]+'/100';
+ document.getElementById('tab'+l).classList.add('done');
+ syncQuiz();
+ if(l<4){
+  quizState.unlocked=l+1;
+  const next=document.getElementById('tab'+(l+1));
+  next.classList.remove('locked');
+  next.innerHTML='LEVEL '+(l+1)+'<br><small>'+['','KENALI','PAHAMI','ANALISIS','KEPUTUSAN'][l+1]+'</small>';
+  showLevel(l+1);
+ }else localStorage.setItem('b_quiz',JSON.stringify(quizState));
+}
+function showLevel(l){
+ if(l>quizState.unlocked){alert('Level ini masih terkunci.');return}
+ document.querySelectorAll('.level-panel').forEach(x=>x.classList.remove('active'));
+ document.getElementById('level'+l).classList.add('active');
+ document.querySelectorAll('.level-tab').forEach(x=>x.classList.remove('active'));
+ document.getElementById('tab'+l).classList.add('active');
+ document.getElementById('kuis').scrollIntoView({behavior:'smooth',block:'start'});
+}
+[1,2,3,4].forEach(l=>document.getElementById('tab'+l).addEventListener('click',()=>showLevel(l)));
+
+
+const roomState = {active:1, unlocked:4};
+
+function updateHouse(){
+  for(let i=1;i<=4;i++){
+    const r=document.getElementById('room'+i);
+    if(!r) continue;
+    r.classList.remove('locked');
+  }
+  const b1=localStorage.getItem('fe_b1_done')==='1';
+  document.getElementById('stB1').textContent=b1?'Selesai':'Sedang dikerjakan';
+  document.getElementById('sumB1').textContent=(localStorage.getItem('fe_b1_score')||'0')+' / 100';
+  document.getElementById('sumQ1').textContent=(localStorage.getItem('fe_b1_quiz')||'0')+' / 100';
+  document.getElementById('grandStatus').textContent='B2, B3, dan B4 terbuka';
+}
+
+function openRoom(room){
+  roomState.active=room;
+  document.querySelectorAll('#room1,#room2,#room3,#room4').forEach(x=>x.classList.remove('active'));
+  document.getElementById('room'+room).classList.add('active');
+  document.querySelectorAll('.room-content').forEach(x=>x.style.display='none');
+  const content=document.getElementById('contentB'+room);
+  if(room===1){
+    document.getElementById('roomNotice').innerHTML='<b>Ruang aktif: B1 — Mengenal Lembaga Keuangan.</b> Data dan pekerjaan B1 tetap dipertahankan.';
+    document.getElementById('nama').scrollIntoView({behavior:'smooth',block:'start'});
+  }else{
+    content.style.display='block';
+    document.getElementById('roomNotice').innerHTML='<b>Ruang aktif: B'+room+'.</b> Ruang pembelajaran ini sudah terbuka.';
+    content.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+
+function completeB1(){
+  const score=calculateScore();
+  const quiz=syncQuiz();
+  localStorage.setItem('fe_b1_score',String(score));
+  localStorage.setItem('fe_b1_quiz',String(quiz));
+  localStorage.setItem('fe_b1_done','1');
+  updateHouse();
+}
+
+function saveData(){
+ rapikanNama(document.getElementById('nama'));
+ const data={};fields.forEach((el,i)=>data[i]=el.type==='radio'?el.checked:el.type==='checkbox'?el.checked:el.value);
+ const score=calculateScore();
+ localStorage.setItem('b_lkpd',JSON.stringify(data));
+ alert('Jawaban dan nilai berhasil disimpan di browser ini.');
+}
+function loadData(){
+ const d=document.getElementById('tanggal');if(d&&!d.value)d.value=new Date().toISOString().slice(0,10);
+ const raw=localStorage.getItem('b_lkpd');
+ if(raw){try{const data=JSON.parse(raw);fields.forEach((el,i)=>{if(data[i]===undefined)return;if(el.type==='radio'||el.type==='checkbox')el.checked=data[i];else el.value=data[i]})}catch(e){}}
+ const sc=localStorage.getItem('b_score');if(sc)try{const x=JSON.parse(sc);document.getElementById('score').textContent=x.s;document.getElementById('predicate').textContent=x.p}catch(e){}
+}
+
+function syncB1Result(){
+ const lkpd = document.getElementById('score').textContent || '0';
+ const pred = document.getElementById('predicate').textContent || 'Belum dinilai';
+ const quiz = document.getElementById('quizFinal').textContent || '0';
+ document.getElementById('resultB1').textContent = lkpd;
+ document.getElementById('resultPredB1').textContent = pred;
+ document.getElementById('resultQuizB1').textContent = quiz;
+}
+function prepareResultAndPrint(){
+ completeB1();
+ syncQuiz();
+ syncB1Result();
+ document.getElementById('hasilB1').scrollIntoView({behavior:'smooth',block:'start'});
+ setTimeout(()=>window.print(),450);
+}
+function resetForm(){
+ if(confirm('Hapus semua jawaban pada LKPD ini?')){
+  fields.forEach(el=>{if(el.type==='radio'||el.type==='checkbox')el.checked=false;else el.value=''});
+  localStorage.removeItem('b_lkpd');localStorage.removeItem('b_score');localStorage.removeItem('b_quiz');
+  document.getElementById('score').textContent='0';document.getElementById('predicate').textContent='Belum dinilai';
+  quizState.scores={1:null,2:null,3:null,4:null};quizState.unlocked=1;
+  [1,2,3,4].forEach(l=>{document.getElementById('score'+l).textContent='Belum dikerjakan';document.getElementById('tab'+l).classList.remove('done');if(l>1)document.getElementById('tab'+l).classList.add('locked')});
+  document.getElementById('quizFinal').textContent='0';document.getElementById('quizPredicate').textContent='Belum menyelesaikan semua level';
+  syncQuiz();renderQuiz();showLevel(1);
+ }
+}
+renderQuiz();loadData();updateHouse();syncB1Result();
+</script>
+</body>
+</html>
